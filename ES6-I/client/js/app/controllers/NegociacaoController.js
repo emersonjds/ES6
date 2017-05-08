@@ -13,16 +13,16 @@ class NegociacaoController {
         event.preventDefault()
 
         let helper = new DateHelper()
-        helper.textoParaData(this._inputData.value)
+        DateHelper.textoParaData(this._inputData.value)
 
         let negociacao = new Negociacao(
-            helper.textoParaData(this._inputData.value),
+            DateHelper.textoParaData(this._inputData.value),
             this._inputQuantidade.value,
             this._inputValor.value
         )
 
         console.log(negociacao)
-        console.log(helper.dataParaTexto(negociacao.data))
+        console.log(DateHelper.dataParaTexto(negociacao.data))
 
         //Exercices 
         let dataString = '17-05-2016'

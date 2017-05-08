@@ -1,12 +1,18 @@
 class DateHelper {
 
-  dataParaTexto(data) {
+  constructor() {
+    //case class be instance explode new Error
+    throw new Error('DateHelper can not be supported')
+  }
+
+  static dataParaTexto(data) {
     return data.getDate()
       + '/' + data.getMonth()
       + '/' + data.getFullYear()
   }
 
-  textoParaData(texto) {
+  //acesso direto com chamada da Classe
+  static textoParaData(texto) {
     return new Date(...texto.split('-').map((item, indice) => item - indice % 2))
   }
 
