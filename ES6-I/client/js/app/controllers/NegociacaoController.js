@@ -12,23 +12,17 @@ class NegociacaoController {
     adiciona(event) {
         event.preventDefault()
 
-        // ". . . " 
-        //utilização do spreed operator, em que ele explicita que cada item do array vai entrar com o posicionamento direto 
-        let data = new Date(...
-            this._inputData.value
-                .split('-')
-                .map((item, indice) => item - indice % 2)
-            //af com instrução unica ja é auto retornavel
-        )
+        let helper = new DateHelper()
+        helper.textoParaData(this._inputData.value)
 
         let negociacao = new Negociacao(
-            data,
+            helper.textoParaData(this._inputData.value),
             this._inputQuantidade.value,
             this._inputValor.value
         )
 
         console.log(negociacao)
-
+        console.log(helper.dataParaTexto(negociacao.data))
 
         //Exercices 
         let dataString = '17-05-2016'
@@ -44,7 +38,7 @@ class NegociacaoController {
 
         //Refactor
         numeros.map((item) => item % 2 != 0 ? item * 2 : item)
-        
+
 
     }
 }
