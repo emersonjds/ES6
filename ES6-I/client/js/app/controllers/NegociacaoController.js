@@ -7,24 +7,18 @@ class NegociacaoController {
         this._inputData = $('#data')
         this._inputQuantidade = $('#quantidade')
         this._inputValor = $('#valor')
+        this._listaNegociacoes = new ListaNegociacoes()
     }
 
     adiciona(event) {
         event.preventDefault()
 
-        let helper = new DateHelper()
-        DateHelper.textoParaData(this._inputData.value)
+        this._listaNegociacoes.adiciona(this._criaNegociacao())
+        this._limpaFormulario()
 
-        let negociacao = new Negociacao(
-            DateHelper.textoParaData(this._inputData.value),
-            this._inputQuantidade.value,
-            this._inputValor.value
-        )
+        console.log(this._listaNegociacoes.negociacoes)
 
-        console.log(negociacao)
-        console.log(DateHelper.dataParaTexto(negociacao.data))
-
-        //Exercices 
+        //Exercices  
         let dataString = '17-05-2016'
         dataString = dataString.split('-').reverse().join('/')
 
@@ -38,7 +32,21 @@ class NegociacaoController {
 
         //Refactor
         numeros.map((item) => item % 2 != 0 ? item * 2 : item)
-
-
     }
+
+    _criaNegociacao() {
+        return new Negociacao(
+            DateHelper.textoParaData(this._inputData.value),
+            this._inputQuantidade.value,
+            this._inputValor.value)
+    }
+
+    _limpaFormulario() {
+        this._inputData.value = ''
+        this._inputQuantidade.value = 1
+        this._inputValor.value = 0.0
+
+        this._inputData.focus()
+    }
+
 }
