@@ -16,7 +16,24 @@ class NegociacaoController {
         this._listaNegociacoes.adiciona(this._criaNegociacao())
         this._limpaFormulario()
 
+        this._listaNegociacoes.negociacoes.length = 0
+
         console.log(this._listaNegociacoes.negociacoes)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //Exercices  
         let dataString = '17-05-2016'
@@ -38,7 +55,8 @@ class NegociacaoController {
         return new Negociacao(
             DateHelper.textoParaData(this._inputData.value),
             this._inputQuantidade.value,
-            this._inputValor.value)
+            this._inputValor.value
+        )
     }
 
     _limpaFormulario() {
