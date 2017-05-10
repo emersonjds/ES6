@@ -1,2 +1,3 @@
-# Repositorio dedicado a estudos com ES6
-Todos os projetos utilizaram exemplos da Alura e PluralSight
+# Repository dedicated to studies with ES6
+
+All projects used examples from Alura and PluralSight
