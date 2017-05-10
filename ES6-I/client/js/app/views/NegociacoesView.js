@@ -34,12 +34,12 @@ class NegociacoesView {
         <td colspan="3"></td>
         <td>
         ${
-          model.negociacoes.reduce((total, n) => {
-            //primeiro parametro pode ser qualquer variavel, n -> posicao que esta sendo percorrido
-            return total + n.volume
-          }, 0.0)
-          //segundo parametro , valor inicial de total
-        }
+      model.negociacoes.reduce((total, n) => {
+        //primeiro parametro pode ser qualquer variavel, n -> posicao que esta sendo percorrido
+        return total + n.volume
+      }, 0.0)
+      //segundo parametro , valor inicial de total
+      }
       </td>
       </tfoot>
 
@@ -51,6 +51,58 @@ class NegociacoesView {
     this._elemento.innerHTML = this._template(model)
   }
 
+  _reduce() {
+    let numeros = [1, 2, 3, 4]
+    let resultado = numeros.reduce((total, item) => total * item, 1)
+  }
 
-}
+  _templateExamplo() {
+    return `
+    ${
+      (function () {
+        let funcionarios = [
+          {
+            "nome": "Douglas",
+            "endereco": "Rua x",
+            "salario": "2000"
+          },
+          {
+            "nome": "Maria",
+            "endereco": "Rua y",
+            "salario": "4000"
+          },
+          {
+            "nome": "Joao",
+            "endereco": "Rua z",
+            "salario": "7000"
+          },
+        ]
+
+
+        let funcionariosEmHtml = funcionarios.map((funcionario) => {
+          return `       
+                <td>${funcionario.nome}</td>
+                <td>${funcionario.endereco}</td>
+                <td>${funcionario.salario}</td>
+              `
+        }).join('')
+      })()
+      } ` 
+    }
+
+    _map() {
+      let numeros = [1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121]
+
+      let dobro = numeros.map(function (num) {
+        return num * 2;
+      });
+      let metade = numeros.map(function (num) {
+        return num / 2;
+      });
+      let raiz = numeros.map(function (num) {
+        return Math.sqrt(num);
+      });
+    }
+
+  }
 
