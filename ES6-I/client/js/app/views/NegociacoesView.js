@@ -17,9 +17,9 @@ class NegociacoesView {
       </thead>
 
       <tbody>
-        ${model.negociacoes.map(n => 
-          //com unico retorno arrow function nao precisa de chave nem de chamada de return
-          `
+        ${model.negociacoes.map(n =>
+        //com unico retorno arrow function nao precisa de chave nem de chamada de return
+        `
             <tr> 
               <td>${DateHelper.dataParaTexto(n.data)}</td>
               <td>${n.quantidade}</td>
@@ -27,11 +27,22 @@ class NegociacoesView {
               <td>${n.volume}</td>
             </tr>
           `
-        ).join('')}
+      ).join('')}
       </tbody>
-
+        
       <tfoot>
+        <td colspan="3"></td>
+        <td>
+        ${
+          model.negociacoes.reduce((total, n) => {
+            //primeiro parametro pode ser qualquer variavel, n -> posicao que esta sendo percorrido
+            return total + n.volume
+          }, 0.0)
+          //segundo parametro , valor inicial de total
+        }
+      </td>
       </tfoot>
+
     </table>
   `
   }
