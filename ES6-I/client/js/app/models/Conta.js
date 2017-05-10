@@ -22,4 +22,8 @@ class Conta {
     return this._saldo
   }
 
+  atualiza() {
+    throw new Error('É necessario sobrescrever o metodo')
+  }
+
 }
