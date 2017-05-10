@@ -13,48 +13,17 @@ class NegociacaoController {
         this._negociacoesView = new NegociacoesView($('#negociacoesView'))
 
         //chamada para atualização inicial do template
-        this._negociacoesView.update()
+        this._negociacoesView.update(this._listaNegociacoes)
     }
 
     adiciona(event) {
-        event.preventDefault()
 
+        event.preventDefault()
         this._listaNegociacoes.adiciona(this._criaNegociacao())
+        this._negociacoesView.update(this._listaNegociacoes)
         this._limpaFormulario()
 
-        this._listaNegociacoes.negociacoes.length = 0
-
         console.log(this._listaNegociacoes.negociacoes)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //Exercices  
-        let dataString = '17-05-2016'
-        dataString = dataString.split('-').reverse().join('/')
-
-        let numeros = [3, 2, 11, 20, 8, 7]
-
-        numeros.map((item) => {
-            if (item % 2 != 0)
-                return item * 2
-            return item
-        })
-
-        //Refactor
-        numeros.map((item) => item % 2 != 0 ? item * 2 : item)
     }
 
     _criaNegociacao() {
@@ -73,4 +42,23 @@ class NegociacaoController {
         this._inputData.focus()
     }
 
+    _exercicios() {
+        //Exercices  
+        let dataString = '17-05-2016'
+        dataString = dataString.split('-').reverse().join('/')
+
+        let numeros = [3, 2, 11, 20, 8, 7]
+
+        numeros.map((item) => {
+            if (item % 2 != 0)
+                return item * 2
+            return item
+        })
+
+        //Refactor
+        numeros.map((item) => item % 2 != 0 ? item * 2 : item)
+    }
+
 }
+
+
