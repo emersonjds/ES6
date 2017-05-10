@@ -17,10 +17,9 @@ class NegociacoesView {
       </thead>
 
       <tbody>
-
-        ${model.negociacoes.map((n) => {
-
-          return `
+        ${model.negociacoes.map(n => 
+          //com unico retorno arrow function nao precisa de chave nem de chamada de return
+          `
             <tr> 
               <td>${DateHelper.dataParaTexto(n.data)}</td>
               <td>${n.quantidade}</td>
@@ -28,8 +27,7 @@ class NegociacoesView {
               <td>${n.volume}</td>
             </tr>
           `
-        }).join('')}
-
+        ).join('')}
       </tbody>
 
       <tfoot>
