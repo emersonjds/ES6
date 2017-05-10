@@ -8,6 +8,12 @@ class NegociacaoController {
         this._inputQuantidade = $('#quantidade')
         this._inputValor = $('#valor')
         this._listaNegociacoes = new ListaNegociacoes()
+
+        //no momento da instancia um objeto do DOM esta sendo passado como parametro para View
+        this._negociacoesView = new NegociacoesView($('#negociacoesView'))
+
+        //chamada para atualização inicial do template
+        this._negociacoesView.update()
     }
 
     adiciona(event) {
