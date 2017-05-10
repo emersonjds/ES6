@@ -13,6 +13,9 @@
 
     <h1 class="text-center">Negociações</h1>
 
+    <div class="" id="mensagemView">
+
+    </div>
     <!--Utilização semelhante ao AngularJS, mas utilizando Vanilla-->
     <form class="form" onsubmit="negociacaoController.adiciona(event)">
 
@@ -46,17 +49,24 @@
     <br>
 
     <div id="negociacoesView">
-        
+
     </div>
 
+
     <script src="./js/app/models/Negociacao.js"></script>
+    <script src="./js/app/controllers/NegociacaoController.js"></script>
+    <script src="./js/app/helpers/DateHelper.js"></script>
+    <script src="./js/app/models/ListaNegociacoes.js"></script>
+    <script src="./js/app/views/View.js"></script>
+    <script src="./js/app/views/NegociacoesView.js"></script>
+    <script src="./js/app/models/Mensagem.js"></script>
+    <script src="./js/app/views/MensagemView.js"></script>
+
     <script src="./js/app/models/Pessoa.js"></script>
     <script src="./js/app/models/Conta.js"></script>
-    <script src="./js/app/models/ListaNegociacoes.js"></script>
-    <script src="./js/app/controllers/NegociacaoController.js"></script>
+
     <script src="./js/app/models/Codigo.js"></script>
-    <script src="./js/app/helpers/DateHelper.js"></script>
-    <script src="./js/app/views/NegociacoesView.js"></script>
+
     <script>
         let n1 = new Negociacao(new Date(), 5, 700)
 
@@ -69,6 +79,7 @@
 
         let negociacaoController = new NegociacaoController()
 
+        let mensagem = new Mensagem()
     </script>
 </body>
 
