@@ -4,5 +4,9 @@
   "description": "Continous studies with es6",
   "main": "index.js",
   "author": "Emerson Jr",
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.2.1"
+  }
 }
