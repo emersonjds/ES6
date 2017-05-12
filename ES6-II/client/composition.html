@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <p class="info"> Teste de Composição</p>
+
+  <script> 
+    class Aviao {
+      constructor(nome) {
+        this._nome = nome
+      }
+
+      voa() {
+        alert(`${this._nome} esta voando`)
+      }
+
+      ligaMotor() {
+        console.log('liga motor')
+      }
+
+      fecharPortas() {
+        console.log('Portas sendo fechadas')
+      }
+    }
+
+    class Bird {
+      constructor(nome) {
+        this._nome = nome
+        //armazenamento de instancia para utilizar composição
+        this._aviao = new Aviao(nome)
+      }
+
+      voa() {
+        //chamada e utilizacão do metodo por composição
+        this._aviao.voa()
+      }
+    }
+
+    //mixin
+    class Passaro {
+      constructor(nome) {
+        this._nome = nome
+      }
+
+      voa() {
+        Reflect.apply(Aviao.prototype.voa, this, [])
+      }
+    }
+
+  </script>
+</body>
+</html>
