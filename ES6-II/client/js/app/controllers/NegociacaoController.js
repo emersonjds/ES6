@@ -6,6 +6,7 @@ class NegociacaoController {
         this._inputData = $('#data')
         this._inputQuantidade = $('#quantidade')
         this._inputValor = $('#valor')
+        //af mantem o contexto léxico do código diferente da utilização de function normal o que torna o contexto nao mais dinamico
         this._listaNegociacoes = new ListaNegociacoes(model =>
             this._negociacoesView.update(model)
         )

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <h1>TITULO</h1>
+  <p>PARAGRAFO</p>
+  <div>DADOS</div>
+</body>
+
+<script>
+  console.log(this) //window
+
+  //o forma lexica com arrow function impede que o this seja dinamizado no DOM
+  let exibeConteudo = () => {
+    console.log(this)
+    alert(this.textContent)
+  }
+
+  //mantem o contexto de document 
+  $ = document.querySelector.bind(document)
+
+  $('h1').addEventListener('click', exibeConteudo)
+  $('p').addEventListener('click', exibeConteudo)
+  $('div').addEventListener('click', exibeConteudo)
+
+
+</script>
+</html>
