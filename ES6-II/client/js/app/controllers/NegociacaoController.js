@@ -26,35 +26,27 @@ class NegociacaoController {
     }
 
     importarNegociacoes() {
-        let xhr = new XMLHttpRequest()
+        let service = new NegociacaoService()
 
-        xhr.open('GET', 'negociacoes/semana')
-        
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState == 4) {
-                if (xhr.status == 200) {
-                   let dados =  JSON.parse(xhr.responseText)
-                    .map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor))
-                    .forEach(negociacao => this._listaNegociacoes.adiciona(negociacao))
-                    this._mensagem.texto = 'Dados carregados com sucesso'
-                } else {
-                    console.log(xhr.responseText)
-                    this._mensagem.texto = 'Houve uma falha na operação, entre com contato com o administrador'
-                }
+        //Error First
+        service.obterNegociacoesDaSemana((err, negociacoes) => {
+            if (err) {
+                this._mensagem.texto = err
+                return
             }
-        }
 
-        xhr.send()
+            negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao))
+            this._mensagem.texto = 'Negociacoes importadas com sucesso'
+        })
+
     }
 
     apaga() {
-
         this._listaNegociacoes.esvazia()
         this._mensagem.texto = 'Negociações apagadas com sucesso'
     }
 
     _criaNegociacao() {
-
         return new Negociacao(
             DateHelper.textoParaData(this._inputData.value),
             this._inputQuantidade.value,
@@ -62,7 +54,6 @@ class NegociacaoController {
     }
 
     _limpaFormulario() {
-
         this._inputData.value = ''
         this._inputQuantidade.value = 1
         this._inputValor.value = 0.0
