@@ -1,14 +1,14 @@
 class ProxyFactory {
 
   static create(objeto, props, acao) {
-    return new Proxy(new ListaNegociacoes(), {
+    return new Proxy(objeto, {
       //target -> objeto original que esta sendo acessado
       //prop -> propriedade do objeto que esta sendo acessada 
       //receiver -> referencia para o próprio Proxy
 
       //o get sera chamado sempre que uma propriedade for acessada
       get(target, prop, receiver) {
-        if (props.includes(prop) && typeof (target[prop]) == typeof (Function)) {
+        if (props.includes(prop) &&  ProxyFactory._ehFuncao(target[prop])) {
           //includes, verifica se a propriedade existe no array ou nao, retornando booleano
           return function () {
             Reflect.apply(target[prop], target, arguments)
@@ -17,6 +17,13 @@ class ProxyFactory {
         }
         return Reflect.get(target, prop, receiver)
         // //chamada da API de reflect
+      },
+      set(target, prop, value, receiver) {
+        if(props.includes(prop)) {
+          // target(prop) = value
+          acao(target)
+        }
+        return Reflect.set(target, prop, value, receiver)
       }
     })
 
@@ -26,6 +33,9 @@ class ProxyFactory {
     // )
   }
 
+  static _ehFuncao(func) {
+    return typeof (func) == typeof (Function)
+  }
 }
 
 
