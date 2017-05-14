@@ -27,7 +27,6 @@ class NegociacaoController {
 
     importarNegociacoes() {
         let service = new NegociacaoService()
-
         //Error First
         service.obterNegociacoesDaSemana((err, negociacoes) => {
             if (err) {
@@ -37,7 +36,6 @@ class NegociacaoController {
             negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao))
             this._mensagem.texto = 'Negociacoes importadas com sucesso'
         })
-
     }
 
     apaga() {

@@ -12,7 +12,7 @@ class NegociacaoService {
             .map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor)))
         } else {
           console.log(xhr.responseText)
-          callback('Nao foi possivel receber as negociacoes', null)
+          callback('Nao foi possivel receber as negociacoes da semana', null)
         }
       }
     }
@@ -31,7 +31,7 @@ class NegociacaoService {
             .map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor)))
         } else {
           console.log(xhr.responseText)
-          callback('Nao foi possivel receber as negociacoes', null)
+          callback('Nao foi possivel receber as negociacoes da semana retrasada', null)
         }
       }
     }
@@ -50,7 +50,7 @@ class NegociacaoService {
             .map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor)))
         } else {
           console.log(xhr.responseText)
-          callback('Nao foi possivel receber as negociacoes', null)
+          callback('Nao foi possivel receber as negociacoes da semana anterior', null)
         }
       }
     }
