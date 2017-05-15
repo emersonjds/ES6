@@ -1,69 +1,47 @@
 class NegociacaoService {
 
+  constructor() {
+    this._http = new HttpService()
+  }
+
   obterNegociacoesDaSemana() {
-
     return new Promise((resolve, reject) => {
-
-      let xhr = new XMLHttpRequest()
-
-      xhr.open('GET', 'negociacoes/semana')
-      //config
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState == 4) {
-          if (xhr.status == 200) {
-            resolve(JSON.parse(xhr.responseText)
-              .map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor)))
-          } else {
-            console.log(xhr.responseText)
-            reject('Nao foi possivel receber as negociacoes da semana')
-          }
-        }
-      }
-      xhr.send()
+      this._http.get('negociacoes/semana')
+        .then(negociacoes => {
+          resolve(negociacoes.map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor)))
+        })
+        .catch((error) => {
+          console.log(error)
+          reject('Nao foi possivel carregar os dados da semana')
+        })
     })
   }
 
   obterNegociacoesDaSemanaAnterior() {
 
     return new Promise((resolve, reject) => {
-      let xhr = new XMLHttpRequest()
-
-      xhr.open('GET', 'negociacoes/anterior')
-      //config
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState == 4) {
-          if (xhr.status == 200) {
-            resolve(JSON.parse(xhr.responseText)
-              .map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor)))
-          } else {
-            console.log(xhr.responseText)
-            reject('Nao foi possivel receber as negociacoes da semana')
-          }
-        }
-      }
-      xhr.send()
+      this._http.get('negociacoes/anterior')
+        .then(negociacoes => {
+          resolve(negociacoes.map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor)))
+        })
+        .catch((error) => {
+          console.log(error)
+          reject('Nao foi possivel carregar os dados da semana')
+        })
     })
   }
 
   obterNegociacoesDaSemanaRetrasada() {
 
     return new Promise((resolve, reject) => {
-      let xhr = new XMLHttpRequest()
-
-      xhr.open('GET', 'negociacoes/retrasada')
-      //config
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState == 4) {
-          if (xhr.status == 200) {
-            resolve(JSON.parse(xhr.responseText)
-              .map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor)))
-          } else {
-            console.log(xhr.responseText)
-            reject('Nao foi possivel receber as negociacoes da semana')
-          }
-        }
-      }
-      xhr.send()
+      this._http.get('negociacoes/retrasada')
+        .then(negociacoes => {
+          resolve(negociacoes.map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor)))
+        })
+        .catch((error) => {
+          console.log(error)
+          reject('Nao foi possivel carregar os dados da semana')
+        })
     })
   }
 

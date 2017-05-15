@@ -28,7 +28,7 @@ class NegociacaoController {
     importarNegociacoes() {
         let service = new NegociacaoService()
         //Sempre trabalhar com padrao do Error First
-
+        
         Promise.all([
             service.obterNegociacoesDaSemana(),
             service.obterNegociacoesDaSemanaAnterior(),
@@ -41,7 +41,7 @@ class NegociacaoController {
         }).catch((error) => {
             this._mensagem.texto = 'Erro ' + error
         })
-        
+
     }
 
     apaga() {
