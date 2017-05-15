@@ -29,23 +29,19 @@ class NegociacaoController {
         let service = new NegociacaoService()
         //Sempre trabalhar com padrao do Error First
 
-        service.obterNegociacoesDaSemana()
-            .then((negociacoes) => {
-                negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao))
-                this._mensagem.texto = 'Dados da semana importados com sucesso'
-            }).catch(error => this._mensagem.texto = 'Erro ao carregar os dados da semana')
-
-        service.obterNegociacoesDaSemanaAnterior()
-            .then((negociacoes) => {
-                negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao))
-                this._mensagem.texto = 'Dados da semana anterior importados com sucesso'
-            }).catch(error => this._mensagem.texto = 'Erro ao carregar os dados da semana anterior')
-
-        service.obterNegociacoesDaSemanaRetrasada()
-            .then((negociacoes) => {
-                negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao))
-                this._mensagem.texto = 'Dados da semana retrasada importados com sucesso'
-            }).catch(error => this._mensagem.texto = 'Erro ao carregar os dados da semana retrasada')
+        Promise.all([
+            service.obterNegociacoesDaSemana(),
+            service.obterNegociacoesDaSemanaAnterior(),
+            service.obterNegociacoesDaSemanaRetrasada(),
+        ]).then(negociacoes => {
+            negociacoes
+                .reduce((arrayNegociacoes, array) => arrayNegociacoes.concat(array), [])
+                .forEach(negociacao => this._listaNegociacoes.adiciona(negociacao))
+            this._mensagem.texto = 'Negociações importadas com sucesso'
+        }).catch((error) => {
+            this._mensagem.texto = 'Erro ' + error
+        })
+        
     }
 
     apaga() {
