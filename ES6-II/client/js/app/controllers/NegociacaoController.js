@@ -35,30 +35,17 @@ class NegociacaoController {
                 this._mensagem.texto = 'Dados da semana importados com sucesso'
             }).catch(error => this._mensagem.texto = 'Erro ao carregar os dados da semana')
 
-        // service.obterNegociacoesDaSemana((err, negociacoes) => {
-        //     if (err) {
-        //         this._mensagem.texto = err
-        //         return
-        //     }
-        //     
-        //     service.obterNegociacoesDaSemanaAnterior((err, negociacoes) => {
-        //         if (err) {
-        //             this._mensagem.texto = err
-        //             return
-        //         }
-        //         negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao))
+        service.obterNegociacoesDaSemanaAnterior()
+            .then((negociacoes) => {
+                negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao))
+                this._mensagem.texto = 'Dados da semana anterior importados com sucesso'
+            }).catch(error => this._mensagem.texto = 'Erro ao carregar os dados da semana anterior')
 
-        //         service.obterNegociacoesDaSemanaRetrasada((err, negociacoes) => {
-        //             if (err) {
-        //                 this._mensagem.texto = err
-        //                 return
-        //             }
-        //             negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao))
-        //             this._mensagem.texto = 'Negociacoes importadas com sucesso'
-        //         })
-        //     })
-        // })
-
+        service.obterNegociacoesDaSemanaRetrasada()
+            .then((negociacoes) => {
+                negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao))
+                this._mensagem.texto = 'Dados da semana retrasada importados com sucesso'
+            }).catch(error => this._mensagem.texto = 'Erro ao carregar os dados da semana retrasada')
     }
 
     apaga() {
