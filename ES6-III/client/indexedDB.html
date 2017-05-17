@@ -13,18 +13,24 @@
   <script>
 /*
   --indexedDB
-openRequest.onupgradeneeded; -> altera ou cria um novo banco
+openRequest.onupgradeneeded; -> Cria ou altera um banco já existente
 openRequest.onsucess; -> valida a existencia do banco atraves da abertura de conexao
 openRequest.onerror; -> devolve o erro caso ocorra algo
 */
-    let openRequest = window.indexedDB.open('negociacoesDB', 1)
+    let connection;
+    let openRequest = window.indexedDB.open('negociacoesDB', 2)
 
     openRequest.onupgradeneeded = e => {
       console.log('Banco criado com sucesso')
+      let minhaConexao = e.target.result
+
+      minhaConexao.createObjectStore('negociacoes')
+
     }
 
     openRequest.onsuccess = e => {
       console.log('Conexao estabelecida')
+      connection = e.target.result
     }
 
     openRequest.onerror = e => {
