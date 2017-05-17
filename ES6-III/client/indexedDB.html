@@ -10,22 +10,26 @@
 
 <body>
 
+  <script src="./js/app/models/Negociacao.js"></script>
+
   <script>
-/*
-  --indexedDB
-openRequest.onupgradeneeded; -> Cria ou altera um banco já existente
-openRequest.onsucess; -> valida a existencia do banco atraves da abertura de conexao
-openRequest.onerror; -> devolve o erro caso ocorra algo
-*/
-    let connection;
-    let openRequest = window.indexedDB.open('negociacoesDB', 2)
+    /*
+      --indexedDB
+    openRequest.onupgradeneeded; -> Cria ou altera um banco já existente
+    openRequest.onsucess; -> valida a existencia do banco atraves da abertura de conexao
+    openRequest.onerror; -> devolve o erro caso ocorra algo
+    */
+    var connection;
+
+    var openRequest = window.indexedDB.open('negociacoesDB', 4)
 
     openRequest.onupgradeneeded = e => {
       console.log('Banco criado com sucesso')
       let minhaConexao = e.target.result
-
-      minhaConexao.createObjectStore('negociacoes')
-
+      if (minhaConexao.objectStoreNames.contains('negociacoes')) {
+        minhaConexao.deleteObjectStore('negociacoes')
+      }
+        minhaConexao.createObjectStore('negociacoes', { autoIncrement : true})
     }
 
     openRequest.onsuccess = e => {
@@ -36,6 +40,53 @@ openRequest.onerror; -> devolve o erro caso ocorra algo
     openRequest.onerror = e => {
       console.log('Foi encontrado uma falha na comunicação com o banco' + e)
     }
+
+    function adiciona() {
+      let transaction = connection.transaction(['negociacoes'], 'readwrite') // leitura e escrita
+
+      let store = transaction.objectStore('negociacoes')
+
+      let negociacao = new Negociacao(new Date(), 10, 200)
+
+      let request = store.add(negociacao)
+
+      request.onsuccess = e => {
+        console.log('negociacao incluida com sucesso')
+      }
+
+      request.onerror = e => {
+        console.log('erro na inserção de dados' + e)
+      }
+    }
+
+    function listaTodos() {
+      let transaction = connection.transaction(['negociacoes'], 'readwrite') // leitura e escrita
+
+      let store = transaction.objectStore('negociacoes')
+
+      let negociacoes = []
+
+      cursor = store.openCursor() // cria um ponteiro para navegar entre os objetos armazenados
+
+      cursor.onsuccess = e => {
+        let atual = e.target.result 
+
+        if (atual) {
+          let dado = atual.value // vai buscar os dados inseridos no ponteiro
+          
+          negociacoes.push(new Negociacao(dado._data, dado._quantidade, dado._valor))
+
+          atual.continue() //passa para o proximo dado do ponteiro
+        } else {
+          console.log(negociacoes)
+        }
+      }
+
+      cursor.onerror = e => {
+        e.target.error.name
+      }
+    }
+
 
   </script>
 </body>
