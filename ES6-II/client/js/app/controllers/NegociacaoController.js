@@ -41,7 +41,6 @@ class NegociacaoController {
         }).catch((error) => {
             this._mensagem.texto = 'Erro ' + error
         })
-
     }
 
     apaga() {

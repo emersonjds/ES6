@@ -20,8 +20,6 @@ class HttpService {
       }
       xhr.send()
     })
-
   }
-
-
+  
 }
