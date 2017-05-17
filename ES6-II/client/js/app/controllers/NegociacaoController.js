@@ -3,6 +3,7 @@ class NegociacaoController {
     constructor() {
 
         let $ = document.querySelector.bind(document)
+        this._ordemAtual = ''
 
         this._inputData = $('#data')
         this._inputQuantidade = $('#quantidade')
@@ -11,7 +12,7 @@ class NegociacaoController {
         this._listaNegociacoes = new Bind(
             new ListaNegociacoes(),
             new NegociacoesView($('#negociacoesView')),
-            'adiciona', 'esvazia')
+            'adiciona', 'esvazia', 'ordena', 'inverteOrde')
 
         this._mensagem = new Bind(
             new Mensagem(), new MensagemView($('#mensagemView')),
@@ -55,4 +56,15 @@ class NegociacaoController {
         this._inputValor.value = 0.0
         this._inputData.focus()
     }
+
+    ordena(coluna) {
+        if (this._ordemAtual == coluna) {
+            this._listaNegociacoes.inverteOrdem()
+        } else {
+            this._listaNegociacoes.ordena((a, b) => a[coluna] - b[coluna])
+        }
+        this._ordemAtual = coluna
+    }
+
+
 }
