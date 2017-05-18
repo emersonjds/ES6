@@ -45,6 +45,7 @@
       let transaction = connection.transaction(['negociacoes'], 'readwrite') // leitura e escrita
 
       let store = transaction.objectStore('negociacoes')
+      //objectStore = uma tabela sem schema, é possivel gravar qualquer objeto valido do javascript
 
       let negociacao = new Negociacao(new Date(), 10, 200)
 
