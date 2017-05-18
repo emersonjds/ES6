@@ -30,6 +30,7 @@
         minhaConexao.deleteObjectStore('negociacoes')
       }
         minhaConexao.createObjectStore('negociacoes', { autoIncrement : true})
+        //propriedade de auto incremento para cada nova negociacao inserida
     }
 
     openRequest.onsuccess = e => {
@@ -42,7 +43,7 @@
     }
 
     function adiciona() {
-      let transaction = connection.transaction(['negociacoes'], 'readwrite') // leitura e escrita
+      let transaction = connection.transaction(['negociacoes'], 'readwrite') //nome do banco + leitura e escrita
 
       let store = transaction.objectStore('negociacoes')
       //objectStore = uma tabela sem schema, é possivel gravar qualquer objeto valido do javascript
