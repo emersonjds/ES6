@@ -1,8 +1,10 @@
 var ConnectionFactory = (function () {
-  var stores = ['negociacoes']
-  var version = 4
-  var dbName = 'negociacoesDB'
+  const stores = ['negociacoes']
+  const version = 4
+  const dbName = 'negociacoesDB'
+
   var connection = null
+  var close = null
 
   return class ConnectionFactory {
 
@@ -27,29 +29,37 @@ var ConnectionFactory = (function () {
           if (!connection)
             connection = e.target.result
 
+          close = connection.close.bind(connection) // associando o metodo close a variavel close
+
+          connection.close = () => {
+            throw new Error('Voce nao pode invocar o metodo close diretamente')
+          }
+
           resolve(connection)
         }
 
         openRequest.onerror = e => {
-
           console.log(e.target.error)
-
           reject(e.target.error.name) //string com erro retornado
         }
-
       })
     }
 
     static _createStores(connection) {
-
       stores.forEach(store => {
-
         if (connection.objectStoreNames.contains(store)) connection.deleteObjectStore(store)
         connection.createObjectStore(store, { autoIncrement: true })
-      });
+      })
+    }
 
+    static closeConnection() {
+      if (connection)
+        close()
+      console.log('A conexao foi fechada com sucesso')
+      connection = null
     }
   }
+
 })();
 
 
