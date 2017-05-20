@@ -16,13 +16,9 @@ var ConnectionFactory = (function () {
     static getConnection() {
 
       return new Promise((resolve, reject) => {
-
         let openRequest = window.indexedDB.open(dbName, version)
-
         openRequest.onupgradeneeded = e => {
-
           ConnectionFactory._createStores(e.target.result)
-
         }
 
         openRequest.onsuccess = e => {
@@ -58,6 +54,8 @@ var ConnectionFactory = (function () {
       console.log('A conexao foi fechada com sucesso')
       connection = null
     }
+
+    
   }
 
 })();
