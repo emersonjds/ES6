@@ -58,6 +58,10 @@ class NegociacaoController {
         let service = new NegociacaoService();
         service
             .obterNegociacoes()
+            .then(negociacoes.filter(negociacao =>
+                this._listaNegociacoes.negociacoes.indexOf(negociacao) == -1 //se nao existir o objeto no array
+                )
+            )
             .then(negociacoes => negociacoes.forEach(negociacao => {
                 this._listaNegociacoes.adiciona(negociacao);
                 this._mensagem.texto = 'Negociações do período importadas'
@@ -102,3 +106,4 @@ class NegociacaoController {
         this._ordemAtual = coluna;
     }
 }
+
