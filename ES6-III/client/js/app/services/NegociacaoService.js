@@ -67,7 +67,7 @@ class NegociacaoService {
     }
 
     cadastra(negociacao) {
-        ConnectionFactory
+        return ConnectionFactory
             .getConnection() //promise return
             .then(connection => new NegociacaoDao(connection))
             .then(dao => dao.adiciona(negociacao))
@@ -79,7 +79,7 @@ class NegociacaoService {
     }
 
     lista() {
-        ConnectionFactory
+        return ConnectionFactory
             .getConnection() //promise return
             .then(connection => new NegociacaoDao(connection))
             .then(dao => dao.listaTodos())
@@ -90,7 +90,7 @@ class NegociacaoService {
     }
 
     apaga() {
-        ConnectionFactory
+        return ConnectionFactory
             .getConnection() //promise return
             .then(connection => new NegociacaoDao(connection))
             .then(dao => dao.apagaTodos())
@@ -98,6 +98,19 @@ class NegociacaoService {
             .catch(erro => {
                 console.log(erro)
                 throw new Error('Nao foi possivel apagar as negociacoes')
+            })
+    }
+
+    importa(listaAtual) {
+        return this.obterNegociacoes() //promise return
+            .then(negociacoes =>
+                negociacoes.filter(negociacao =>
+                    !listaAtual.some(negociacaoExistente =>
+                        JSON.stringify(negociacao) == JSON.stringify(negociacaoExistente)))
+            )
+            .catch(erro => {
+                console.log(erro)
+                throw new Error('Falha ao buscar dados de negociacao')
             })
     }
 }
