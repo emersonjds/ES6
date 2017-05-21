@@ -17,7 +17,6 @@ class NegociacaoDao {
         .add(negociacao);
 
       request.onsuccess = e => {
-
         resolve();
       };
 

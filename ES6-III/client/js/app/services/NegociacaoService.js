@@ -1,12 +1,12 @@
 class NegociacaoService {
-    
+
     constructor() {
-        
+
         this._http = new HttpService();
     }
-    
+
     obterNegociacoesDaSemana() {
-               
+
         return this._http
             .get('negociacoes/semana')
             .then(negociacoes => {
@@ -16,11 +16,11 @@ class NegociacaoService {
             .catch(erro => {
                 console.log(erro);
                 throw new Error('Não foi possível obter as negociações da semana');
-            });  
+            });
     }
-    
+
     obterNegociacoesDaSemanaAnterior() {
-               
+
         return this._http
             .get('negociacoes/anterior')
             .then(negociacoes => {
@@ -30,11 +30,11 @@ class NegociacaoService {
             .catch(erro => {
                 console.log(erro);
                 throw new Error('Não foi possível obter as negociações da semana anterior');
-            });   
+            });
     }
-    
+
     obterNegociacoesDaSemanaRetrasada() {
-               
+
         return this._http
             .get('negociacoes/retrasada')
             .then(negociacoes => {
@@ -44,12 +44,12 @@ class NegociacaoService {
             .catch(erro => {
                 console.log(erro);
                 throw new Error('Não foi possível obter as negociações da semana retrasada');
-            });  
-        
+            });
+
     }
-    
+
     obterNegociacoes() {
-        
+
         return Promise.all([
             this.obterNegociacoesDaSemana(),
             this.obterNegociacoesDaSemanaAnterior(),
@@ -58,11 +58,46 @@ class NegociacaoService {
 
             let negociacoes = periodos
                 .reduce((dados, periodo) => dados.concat(periodo), [])
-                .map(dado => new Negociacao(new Date(dado.data), dado.quantidade, dado.valor ));
+                .map(dado => new Negociacao(new Date(dado.data), dado.quantidade, dado.valor));
 
             return negociacoes;
         }).catch(erro => {
             throw new Error(erro);
         });
-	} 
+    }
+
+    cadastra(negociacao) {
+        ConnectionFactory
+            .getConnection() //promise return
+            .then(connection => new NegociacaoDao(connection))
+            .then(dao => dao.adiciona(negociacao))
+            .then(() => 'Negociacao adicionada com sucesso')
+            .catch(erro => {
+                console.log(erro)
+                throw new Error('Nao foi possivel adicionar a negociacao')
+            })
+    }
+
+    lista() {
+        ConnectionFactory
+            .getConnection() //promise return
+            .then(connection => new NegociacaoDao(connection))
+            .then(dao => dao.listaTodos())
+            .catch(erro => {
+                console.log(erro)
+                throw new Error('Nao foi possivel obter as negociacoes')
+            })
+    }
+
+    apaga() {
+        ConnectionFactory
+            .getConnection() //promise return
+            .then(connection => new NegociacaoDao(connection))
+            .then(dao => dao.apagaTodos())
+            .then(() => 'Negociacoes apagadas com sucesso')
+            .catch(erro => {
+                console.log(erro)
+                throw new Error('Nao foi possivel apagar as negociacoes')
+            })
+    }
 }

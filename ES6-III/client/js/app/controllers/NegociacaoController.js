@@ -2,60 +2,58 @@ class NegociacaoController {
 
     constructor() {
 
-        let $ = document.querySelector.bind(document);
 
-        this._inputData = $('#data');
-        this._inputQuantidade = $('#quantidade');
-        this._inputValor = $('#valor');
+        let $ = document.querySelector.bind(document)
+
+        this._inputData = $('#data')
+        this._inputQuantidade = $('#quantidade')
+        this._inputValor = $('#valor')
 
         this._listaNegociacoes = new Bind(
             new ListaNegociacoes(),
             new NegociacoesView($('#negociacoesView')),
-            'adiciona', 'esvazia', 'ordena', 'inverteOrdem');
+            'adiciona', 'esvazia', 'ordena', 'inverteOrdem')
 
         this._mensagem = new Bind(
             new Mensagem(), new MensagemView($('#mensagemView')),
-            'texto');
+            'texto')
 
         this._ordemAtual = ''
+        this._service = new NegociacaoService()
 
-        ConnectionFactory
-            .getConnection()
-            .then(connection => new NegociacaoDao(connection)) //return implicito com a af
-            .then(dao => dao.listaTodos())
+        this._init()
+    }
+
+    _init() {
+        this._service
+            .lista()
             .then(negociacoes =>
                 negociacoes.forEach(negociacao =>
-                    this._listaNegociacoes.adiciona(negociacao)))
-            .catch(erro => {
-                console.log(erro)
-                this._mensagem.texto = erro
-            })
+                    negociacoes._listaNegociacoes.adiciona(negociacao)))
+            .catch(erro => this._mensagem.texto = erro)
 
+        setInterval(() => {
+            this.importaNegociacoes()
+        }, 3000)
     }
 
     adiciona(event) {
-
         event.preventDefault()
 
-        ConnectionFactory
-            .getConnection()
-            .then(connection => {
+        let negociacao = this._criaNegociacao()
 
-                let negociacao = this._criaNegociacao()
-
-                new NegociacaoDao(connection)
-                    .adiciona(negociacao)
-                    .then(() => {
-                        this._listaNegociacoes.adiciona(negociacao)
-                        this._mensagem.texto = 'Negociação adicionada com sucesso';
-                        this._limpaFormulario()
-                    })
+        this._service
+            .cadastra(negociacao)
+            .then(mensagem => {
+                this._listaNegociacoes.adiciona(negociacao)
+                this._mensagem.texto = mensagem
+                this._limpaFormulario()
             })
             .catch(erro => this._mensagem.texto = erro)
     }
 
     importaNegociacoes() {
-        let service = new NegociacaoService()
+        this._service
         service
             .obterNegociacoes() //promise return
             .then(negociacoes =>
@@ -71,14 +69,14 @@ class NegociacaoController {
     }
 
     apaga() {
-        ConnectionFactory
-            .getConnection()
-            .then(connection => new NegociacaoDao(connection))
-            .then(dao => dao.apagaTodos())
+
+        this._service
+            .apaga()
             .then(mensagem => {
                 this._mensagem.texto = mensagem
                 this._listaNegociacoes.esvazia()
             })
+            .catch(erro => this._mensagem.texto = erro)
     }
 
     _criaNegociacao() {
@@ -91,20 +89,20 @@ class NegociacaoController {
 
     _limpaFormulario() {
 
-        this._inputData.value = '';
-        this._inputQuantidade.value = 1;
-        this._inputValor.value = 0.0;
-        this._inputData.focus();
+        this._inputData.value = ''
+        this._inputQuantidade.value = 1
+        this._inputValor.value = 0.0
+        this._inputData.focus()
     }
 
     ordena(coluna) {
 
         if (this._ordemAtual == coluna) {
-            this._listaNegociacoes.inverteOrdem();
+            this._listaNegociacoes.inverteOrdem()
         } else {
-            this._listaNegociacoes.ordena((p, s) => p[coluna] - s[coluna]);
+            this._listaNegociacoes.ordena((p, s) => p[coluna] - s[coluna])
         }
-        this._ordemAtual = coluna;
+        this._ordemAtual = coluna
     }
 }
 
