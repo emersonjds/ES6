@@ -1,14 +1,25 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.NegociacaoService = undefined;
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _HttpService = require('./HttpService');
+
+var _ConnectionFactory = require('./ConnectionFactory');
+
+var _NegociacaoDao = require('./../dao/NegociacaoDao');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var NegociacaoService = function () {
+var NegociacaoService = exports.NegociacaoService = function () {
     function NegociacaoService() {
         _classCallCheck(this, NegociacaoService);
 
-        this._http = new HttpService();
+        this._http = new _HttpService.HttpService();
     }
 
     _createClass(NegociacaoService, [{
@@ -73,9 +84,9 @@ var NegociacaoService = function () {
     }, {
         key: 'cadastra',
         value: function cadastra(negociacao) {
-            return ConnectionFactory.getConnection() //promise return
+            return _ConnectionFactory.ConnectionFactory.getConnection() //promise return
             .then(function (connection) {
-                return new NegociacaoDao(connection);
+                return new _NegociacaoDao.NegociacaoDao(connection);
             }).then(function (dao) {
                 return dao.adiciona(negociacao);
             }).then(function () {
@@ -88,9 +99,9 @@ var NegociacaoService = function () {
     }, {
         key: 'lista',
         value: function lista() {
-            return ConnectionFactory.getConnection() //promise return
+            return _ConnectionFactory.ConnectionFactory.getConnection() //promise return
             .then(function (connection) {
-                return new NegociacaoDao(connection);
+                return new _NegociacaoDao.NegociacaoDao(connection);
             }).then(function (dao) {
                 return dao.listaTodos();
             }).catch(function (erro) {
@@ -101,9 +112,9 @@ var NegociacaoService = function () {
     }, {
         key: 'apaga',
         value: function apaga() {
-            return ConnectionFactory.getConnection() //promise return
+            return _ConnectionFactory.ConnectionFactory.getConnection() //promise return
             .then(function (connection) {
-                return new NegociacaoDao(connection);
+                return new _NegociacaoDao.NegociacaoDao(connection);
             }).then(function (dao) {
                 return dao.apagaTodos();
             }).then(function () {
