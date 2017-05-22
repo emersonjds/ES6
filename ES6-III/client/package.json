@@ -1,0 +1,8 @@
+{
+  "name": "es6-III",
+  "version": "1.0.0",
+  "description": "es6 with Babel",
+  "main": "index.js",
+  "author": "Emerson Jr",
+  "license": "GPL-3.0"
+}
