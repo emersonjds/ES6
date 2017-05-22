@@ -108,3 +108,10 @@ class NegociacaoController {
     }
 }
 
+let negociacaoController = new NegociacaoController()
+
+//simulando um singleton 
+
+export function currentInstance() {
+    return negociacaoController
+}
